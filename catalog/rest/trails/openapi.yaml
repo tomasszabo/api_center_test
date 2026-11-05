@@ -1,0 +1,56 @@
+openapi: 3.0.3
+info:
+  title: Pine Valley Trails API
+  version: 1.0.0
+  description: Fictional hiking trail catalog for an Azure API Center demonstration. No backend is deployed.
+servers:
+  - url: https://trails.example.com/v1
+    description: Fictional endpoint; not a working backend
+paths:
+  /trails:
+    get:
+      operationId: listTrails
+      summary: List sample hiking trails
+      parameters:
+        - name: difficulty
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [easy, moderate, hard]
+      responses:
+        '200':
+          description: Matching trails
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Trail'
+              example:
+                - id: TRL-001
+                  name: Pine Loop
+                  difficulty: easy
+                  distanceKm: 3.2
+                - id: TRL-002
+                  name: Ridge Walk
+                  difficulty: moderate
+                  distanceKm: 7.5
+        '400':
+          description: Unsupported difficulty filter
+components:
+  schemas:
+    Trail:
+      type: object
+      required: [id, name, difficulty, distanceKm]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        difficulty:
+          type: string
+          enum: [easy, moderate, hard]
+        distanceKm:
+          type: number
+          minimum: 0

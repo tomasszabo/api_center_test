@@ -1,0 +1,13 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.tomasszabo.sample/trail-guide",
+  "title": "Pine Valley Trail Guide (fictional)",
+  "description": "Fictional trail discovery MCP server for catalog demonstrations; no backend is deployed.",
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://trails.example.com/mcp"
+    }
+  ]
+}
