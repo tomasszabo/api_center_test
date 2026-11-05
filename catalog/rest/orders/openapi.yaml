@@ -1,0 +1,67 @@
+openapi: 3.0.3
+info:
+  title: Northstar Orders API
+  version: 1.0.0
+  description: Fictional order lookup API for an Azure API Center demonstration. No backend is deployed.
+servers:
+  - url: https://orders.example.com/v1
+    description: Fictional endpoint; not a working backend
+paths:
+  /orders/{orderId}:
+    get:
+      operationId: getOrder
+      summary: Look up an order
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: ORD-1001
+      responses:
+        '200':
+          description: Order found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+              example:
+                id: ORD-1001
+                status: shipped
+                total: 49.95
+                currency: EUR
+        '404':
+          description: Order not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: order_not_found
+                message: No order exists with this identifier.
+components:
+  schemas:
+    Order:
+      type: object
+      required: [id, status, total, currency]
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum: [pending, shipped, delivered, cancelled]
+        total:
+          type: number
+          format: double
+          minimum: 0
+        currency:
+          type: string
+          pattern: '^[A-Z]{3}$'
+    Error:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+        message:
+          type: string
